@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rig Maths Calculators</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold text-center mb-8">Rig Maths: Drilling Calculators</h1>
+        
+        <!-- Mud Weight Calculator -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Mud Weight Calculator</h2>
+            <p class="text-gray-600 mb-4">Calculate mud weight (ppg) to balance formation pressure.</p>
+            <div class="grid grid-cols-1 gap-4">
+                <div><label class="block text-sm font-medium">Formation Pressure (psi):</label>
+                <input id="formationPressure" type="number" class="w-full p-2 border rounded" placeholder="e.g., 5000"></div>
+                <div><label class="block text-sm font-medium">True Vertical Depth (ft):</label>
+                <input id="tvd" type="number" class="w-full p-2 border rounded" placeholder="e.g., 10000"></div>
+                <button onclick="calculateMudWeight()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
+                <p id="mudWeightResult" class="text-lg font-semibold mt-4"></p>
+            </div>
+        </div>
+
+        <!-- Annular Velocity Calculator -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Annular Velocity Calculator</h2>
+            <p class="text-gray-600 mb-4">Calculate annular velocity (ft/min) for cuttings transport.</p>
+            <div class="grid grid-cols-1 gap-4">
+                <div><label class="block text-sm font-medium">Pump Output (gpm):</label>
+                <input id="pumpOutput" type="number" class="w-full p-2 border rounded" placeholder="e.g., 400"></div>
+                <div><label class="block text-sm font-medium">Hole Diameter (in):</label>
+                <input id="holeDiameter" type="number" class="w-full p-2 border rounded" placeholder="e.g., 8.5"></div>
+                <div><label class="block text-sm font-medium">Pipe Diameter (in):</label>
+                <input id="pipeDiameter" type="number" class="w-full p-2 border rounded" placeholder="e.g., 5"></div>
+                <button onclick="calculateAnnularVelocity()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
+                <p id="annularVelocityResult" class="text-lg font-semibold mt-4"></p>
+            </div>
+        </div>
+
+        <!-- Torque Calculator -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Torque Calculator</h2>
+            <p class="text-gray-600 mb-4">Calculate torque (ft-lbs) on the drill string.</p>
+            <div class="grid grid-cols-1 gap-4">
+                <div><label class="block text-sm font-medium">Rotary Speed (RPM):</label>
+                <input id="rotarySpeed" type="number" class="w-full p-2 border rounded" placeholder="e.g., 100"></div>
+                <div><label class="block text-sm font-medium">Weight on Bit (lbs):</label>
+                <input id="wob" type="number" class="w-full p-2 border rounded" placeholder="e.g., 20000"></div>
+                <div><label class="block text-sm font-medium">Coefficient of Friction:</label>
+                <input id="friction" type="number" step="0.01" class="w-full p-2 border rounded" placeholder="e.g., 0.3"></div>
+                <button onclick="calculateTorque()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
+                <p id="torqueResult" class="text-lg font-semibold mt-4"></p>
+            </div>
+        </div>
+
+        <!-- EUR Calculator -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">EUR Calculator</h2>
+            <p class="text-gray-600 mb-4">Estimate Ultimate Recovery (bbl) for a reservoir.</p>
+            <div class="grid grid-cols-1 gap-4">
+                <div><label class="block text-sm font-medium">Oil in Place (bbl):</label>
+                <input id="oilInPlace" type="number" class="w-full p-2 border rounded" placeholder="e.g., 100000000"></div>
+                <div><label class="block text-sm font-medium">Recovery Factor (%):</label>
+                <input id="recoveryFactor" type="number" step="0.1" class="w-full p-2 border rounded" placeholder="e.g., 30"></div>
+                <button onclick="calculateEUR()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
+                <p id="eurResult" class="text-lg font-semibold mt-4"></p>
+            </div>
+        </div>
+
+        <!-- Kill Mud Weight Calculator -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Kill Mud Weight Calculator</h2>
+            <p class="text-gray-600 mb-4">Calculate kill mud weight (ppg) for well control.</p>
+            <div class="grid grid-cols-1 gap-4">
+                <div><label class="block text-sm font-medium">SIDPP (psi):</label>
+                <input id="sidpp" type="number" class="w-full p-2 border rounded" placeholder="e.g., 500"></div>
+                <div><label class="block text-sm font-medium">Original Mud Weight (ppg):</label>
+                <input id="origMudWeight" type="number" class="w-full p-2 border rounded" placeholder="e.g., 9"></div>
+                <div><label class="block text-sm font-medium">True Vertical Depth (ft):</label>
+                <input id="tvdKill" type="number" class="w-full p-2 border rounded" placeholder="e.g., 10000"></div>
+                <button onclick="calculateKillMudWeight()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
+                <p id="killMudWeightResult" class="text-lg font-semibold mt-4"></p>
+            </div>
+        </div>
+
+        <!-- ROP Calculator -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Rate of Penetration Calculator</h2>
+            <p class="text-gray-600 mb-4">Calculate ROP (ft/hr) for drilling efficiency.</p>
+            <div class="grid grid-cols-1 gap-4">
+                <div><label class="block text-sm font-medium">Weight on Bit (lbs):</label>
+                <input id="wobROP" type="number" class="w-full p-2 border rounded" placeholder="e.g., 20000"></div>
+                <div><label class="block text-sm font-medium">Rotary Speed (RPM):</label>
+                <input id="rpmROP" type="number" class="w-full p-2 border rounded" placeholder="e.g., 100"></div>
+                <div><label class="block text-sm font-medium">Bit Diameter (in):</label>
+                <input id="bitDiameter" type="number" class="w-full p-2 border rounded" placeholder="e.g., 8.5"></div>
+                <div><label class="block text-sm font-medium">Formation Hardness (psi):</label>
+                <input id="formationHardness" type="number" class="w-full p-2 border rounded" placeholder="e.g., 10000"></div>
+                <button onclick="calculateROP()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
+                <p id="ropResult" class="text-lg font-semibold mt-4"></p>
+            </div>
+        </div>
+
+        <!-- Collapse Pressure Calculator -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Collapse Pressure Calculator</h2>
+            <p class="text-gray-600 mb-4">Calculate collapse pressure (psi) for casing design.</p>
+            <div class="grid grid-cols-1 gap-4">
+                <div><label class="block text-sm font-medium">Yield Strength (psi):</label>
+                <input id="yieldStrength" type="number" class="w-full p-2 border rounded" placeholder="e.g., 80000"></div>
+                <div><label class="block text-sm font-medium">Wall Thickness (in):</label>
+                <input id="wallThickness" type="number" step="0.01" class="w-full p-2 border rounded" placeholder="e.g., 0.5"></div>
+                <div><label class="block text-sm font-medium">Casing OD (in):</label>
+                <input id="casingOD" type="number" class="w-full p-2 border rounded" placeholder="e.g., 7"></div>
+                <button onclick="calculateCollapsePressure()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
+                <p id="collapsePressureResult" class="text-lg font-semibold mt-4"></p>
+            </div>
+        </div>
+
+        <!-- Pump Pressure Calculator -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Pump Pressure Calculator</h2>
+            <p class="text-gray-600 mb-4">Calculate pump pressure (psi) for mud circulation.</p>
+            <div class="grid grid-cols-1 gap-4">
+                <div><label class="block text-sm font-medium">Pump Output (gpm):</label>
+                <input id="pumpOutputPP" type="number" class="w-full p-2 border rounded" placeholder="e.g., 400"></div>
+                <div><label class="block text-sm font-medium">Mud Viscosity (cp):</label>
+                <input id="mudViscosity" type="number" class="w-full p-2 border rounded" placeholder="e.g., 50"></div>
+                <div><label class="block text-sm font-medium">Drill String Length (ft):</label>
+                <input id="drillStringLength" type="number" class="w-full p-2 border rounded" placeholder="e.g., 10000"></div>
+                <div><label class="block text-sm font-medium">Pipe ID (in):</label>
+                <input id="pipeID" type="number" class="w-full p-2 border rounded" placeholder="e.g., 4"></div>
+                <button onclick="calculatePumpPressure()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
+                <p id="pumpPressureResult" class="text-lg font-semibold mt-4"></p>
+            </div>
+        </div>
+
+        <!-- CTE Calculator -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Cuttings Transport Efficiency Calculator</h2>
+            <p class="text-gray-600 mb-4">Calculate CTE (%) for cuttings removal.</p>
+            <div class="grid grid-cols-1 gap-4">
+                <div><label class="block text-sm font-medium">Annular Velocity (ft/min):</label>
+                <input id="annularVelocityCTE" type="number" class="w-full p-2 border rounded" placeholder="e.g., 443.98"></div>
+                <div><label class="block text-sm font-medium">Critical Velocity (ft/min):</label>
+                <input id="criticalVelocity" type="number" class="w-full p-2 border rounded" placeholder="e.g., 100"></div>
+                <button onclick="calculateCTE()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
+                <p id="cteResult" class="text-lg font-semibold mt-4"></p>
+            </div>
+        </div>
+
+        <!-- Hook Load Calculator -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Hook Load Calculator</h2>
+            <p class="text-gray-600 mb-4">Calculate hook load (lbs) during drilling or tripping.</p>
+            <div class="grid grid-cols-1 gap-4">
+                <div><label class="block text-sm font-medium">Drill String Weight (lbs):</label>
+                <input id="drillStringWeight" type="number" class="w-full p-2 border rounded" placeholder="e.g., 100000"></div>
+                <div><label class="block text-sm font-medium">Weight on Bit (lbs):</label>
+                <input id="wobHook" type="number" class="w-full p-2 border rounded" placeholder="e.g., 20000"></div>
+                <div><label class="block text-sm font-medium">Buoyancy Factor:</label>
+                <input id="buoyancyFactor" type="number" step="0.01" class="w-full p-2 border rounded" placeholder="e.g., 0.85"></div>
+                <div><label class="block text-sm font-medium">Mud Weight (ppg):</label>
+                <input id="mudWeightHook" type="number" class="w-full p-2 border rounded" placeholder="e.g., 9.62"></div>
+                <div><label class="block text-sm font-medium">Drill String Volume (bbl):</label>
+                <input id="drillStringVolume" type="number" class="w-full p-2 border rounded" placeholder="e.g., 100"></div>
+                <button onclick="calculateHookLoad()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Calculate</button>
+                <p id="hookLoadResult" class="text-lg font-semibold mt-4"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateMudWeight() {
+            const formationPressure = parseFloat(document.getElementById('formationPressure').value);
+            const tvd = parseFloat(document.getElementById('tvd').value);
+            if (isNaN(formationPressure) || isNaN(tvd) || tvd <= 0) {
+                document.getElementById('mudWeightResult').innerText = 'Please enter valid inputs.';
+                return;
+            }
+            const mudWeight = (formationPressure / (0.052 * tvd)).toFixed(2);
+            document.getElementById('mudWeightResult').innerText = `Mud Weight: ${mudWeight} ppg`;
+        }
+
+        function calculateAnnularVelocity() {
+            const pumpOutput = parseFloat(document.getElementById('pumpOutput').value);
+            const holeDiameter = parseFloat(document.getElementById('holeDiameter').value);
+            const pipeDiameter = parseFloat(document.getElementById('pipeDiameter').value);
+            if (isNaN(pumpOutput) || isNaN(holeDiameter) || isNaN(pipeDiameter) || holeDiameter <= pipeDiameter) {
+                document.getElementById('annularVelocityResult').innerText = 'Please enter valid inputs.';
+                return;
+            }
+            const annularArea = (Math.PI / 4) * (holeDiameter ** 2 - pipeDiameter ** 2);
+            const annularVelocity = (pumpOutput / annularArea * 24.5).toFixed(2);
+            document.getElementById('annularVelocityResult').innerText = `Annular Velocity: ${annularVelocity} ft/min`;
+        }
+
+        function calculateTorque() {
+            const rotarySpeed = parseFloat(document.getElementById('rotarySpeed').value);
+            const wob = parseFloat(document.getElementById('wob').value);
+            const friction = parseFloat(document.getElementById('friction').value);
+            if (isNaN(rotarySpeed) || isNaN(wob) || isNaN(friction)) {
+                document.getElementById('torqueResult').innerText = 'Please enter valid inputs.';
+                return;
+            }
+            const torque = (wob * friction *
